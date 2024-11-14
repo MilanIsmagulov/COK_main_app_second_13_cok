@@ -5,6 +5,7 @@ async function waitForElement(selectors) {
     return document.querySelector(selectors);
 }
 waitForElement('#last_audio_1, #last_audio_2').then(drawingArea3 => {
+    
     setTimeout(() => {
         if (drawingArea3.id === 'last_audio_1') {
             console.log('Found #last_audio_1');
@@ -13,6 +14,7 @@ waitForElement('#last_audio_1, #last_audio_2').then(drawingArea3 => {
             console.log('Found #last_audio_2');
             svgTest(drawingArea3);
         }
+        updatePage(0);
     }, 100);
 });
 function handleAttempts(number, backWardBtn, nextBtn) {
