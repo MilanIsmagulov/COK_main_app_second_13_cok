@@ -956,11 +956,34 @@ const data = {
                 <audio src="content/sounds/btn_sound.mp3" id="btn_sound" style="display: none;"></audio>
                 <audio src="content/sounds/electr.mp3"  id="electr" style="display: none;"></audio>
                 <div id='last_audio_1'></div>
-                <script>
-                    window.dataLoaded = true;
-                    console.log('true');
-                </script>
             `},
+            {"correctAnswer": [
+                {from: "cont1", to: "cont6"},
+                {from: "cont2", to: "cont7"},
+                {from: "cont2", to: "cont16"},
+                {from: "cont3", to: "cont8"},
+                {from: "cont4", to: "cont19"},
+                {from: "cont5", to: "cont8"},
+                {from: "cont9", to: "cont17"},
+                {from: "cont11", to: "cont20"},
+                {from: "cont13", to: "cont22"},
+                {from: "cont14", to: "cont19"},
+                {from: "cont17", to: "cont18"},
+                {from: "cont12", to: "cont21"},
+                {from: "cont15", to: "cont15"},
+            ]},
+            {"correctAnswerNoneFull": [
+                {from: "cont1", to: "cont6"},
+                {from: "cont2", to: "cont7"},
+                {from: "cont3", to: "cont8"},
+                {from: "cont4", to: "cont19"},
+                {from: "cont5", to: "cont8"},
+                {from: "cont11", to: "cont20"},
+                {from: "cont13", to: "cont22"},
+                {from: "cont14", to: "cont19"},
+                {from: "cont12", to: "cont21"},
+                {from: "cont15", to: "cont15"},
+            ]},
         ],
     },
     "index_16":{
@@ -1176,7 +1199,210 @@ const data = {
     "index_17":{
         "subtitle": "Практическая работа «Сборка схемы нереверсивного асинхронного электродвигателя с короткозамкнутым ротором c защитой от тепловой перегрузки»",
         "step_of_popup": "Практическая работа «Сборка схемы нереверсивного асинхронного электродвигателя с короткозамкнутым ротором c защитой от тепловой перегрузки»",
-
+        "paragraph_1":[
+            {"text2": `
+                <main>
+                <link rel="stylesheet" href="./styles/style_tren_2.css">
+                    <div class="main_wrapper">
+                        <div class="main_frame" id="drawingArea">
+                            <div class="shield_and_motor">
+                                <div class="shield">
+                                    <div class="first_row">
+                                        <div class="second_pribor">
+                                            <div class="second_pribor_second_contacts first_pribor_first_contacts">
+                                                <div class="contact__2_3">
+                                                    <div class="cont" id="movable123123"></div>
+                                                </div>
+                                                <div class="contact__2_4">
+                                                    <div class="cont" id="b433434"></div>
+                                                </div>
+                                                <div class="contact__2_5">
+                                                    <div class="cont" id="sdaasd-2"></div>
+                                                </div>
+                                            </div>
+                                            <div class="second_pribor_main_body">
+                                                <!-- Если ВЫКЛ то все схема не работает, т.к. питания нету -->
+                                                <button class="avtomat_button on" id="toggleButton"></button>
+                                                <!-- Если ВЫКЛ то все схема не работает, т.к. питания нету -->
+                                            </div>
+                                            <div class="second_pribor_third_contacts first_pribor_second_contacts">
+                                                <div class="contact__2_3">
+                                                    <div class="cont movable" id="cont1"></div>
+                                                </div>
+                                                <div class="contact__2_4">
+                                                    <div class="cont movable" id="cont2"></div>
+                                                </div>
+                                                <div class="contact__2_5">
+                                                    <div class="cont movable" id="cont3"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="electr_img"><img src="./content/electr.png" alt=""></div>
+                                    </div>
+                                    <div class="second_row">
+                                        <div class="second_pribor">
+                                            <div class="second_pribor_first_contacts">
+                                                <div class="contact__2_1">
+                                                    <div class="cont movable" id="cont4"></div>
+                                                </div>
+                                                <div class="contact__2_2">
+                                                    <div class="cont movable" id="cont5"></div>
+                                                </div>
+                                            </div>
+                                            <div class="second_pribor_second_contacts">
+                                                <div class="contact__2_3">
+                                                    <div class="cont movable" id="cont6"></div>
+                                                </div>
+                                                <div class="contact__2_4">
+                                                    <div class="cont movable" id="cont7"></div>
+                                                </div>
+                                                <div class="contact__2_5">
+                                                    <div class="cont movable" id="cont8"></div>
+                                                </div>
+                                                <div class="contact__2_6">
+                                                    <div class="cont movable" id="cont9"></div>
+                                                </div>
+                                            </div>
+                                            <div class="second_pribor_main_body">
+                                                <!-- Класс in_line добавляется тогда когда схема успешно запустилась -->
+                                                <div class="traversa in_line0"></div>
+                                                <!-- Класс in_line добавляется тогда когда схема успешно запустилась -->
+                                            </div>
+                                            <div class="second_pribor_third_contacts second_pribor_third_s_contacts">
+                                                <div class="contact__2_3">
+                                                    <div class="cont movable" id="cont11"></div>
+                                                </div>
+                                                <div class="contact__2_4">
+                                                    <div class="cont movable" id="cont12"></div>
+                                                </div>
+                                                <div class="contact__2_5">
+                                                    <div class="cont movable" id="cont13"></div>
+                                                </div>
+                                                <div class="contact__2_6">
+                                                    <div class="cont movable" id="cont14"></div>
+                                                </div>
+                                            </div>
+                                            <div class="second_pribor_fourth_contacts">
+                                                <div class="cont_rele">
+                                                    <div class="contact__2_100">
+                                                        <div class="cont movable" id="cont23"></div>
+                                                        <div class="cont movable" id="cont24"></div>
+                                                        <div class="cont movable" id="cont25"></div>
+                                                        <div class="cont movable" id="cont26"></div>
+                                                    </div>
+                                                    <div class="contact__2_99">
+                                                        <div class="cont movable" id="cont27"></div>
+                                                        <div class="cont movable" id="cont28"></div>
+                                                        <div class="cont movable" id="cont29"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="contact__2_1">
+                                                    <div class="cont movable" id="cont30"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pult_plc">
+                                <div class="pult">
+                                    <div class="first_pult_contact">
+                                        <div class="cont movable" id="cont16"></div>
+                                        4
+                                    </div>
+                                    <div class="stop_button btn"><button id="stop_button_1"></button></div>
+                                    <div class="second_pult_contact">
+                                        <div class="cont movable" id="cont17"></div>
+                                        3
+                                    </div>
+                                    <br>
+                                    <div class="third_pult_contact">
+                                        <div class="cont movable" id="cont18"></div>
+                                        2
+                                    </div>
+                                    <div class="start_button btn"><button id="start_button_1"></button></div>
+                                    <div class="fourth_pult_contact">
+                                        <div class="cont movable" id="cont19"></div>
+                                        1
+                                    </div>
+                                </div>
+                                <div class="third_row">
+                                    <div class="el_motor">
+                                        <div class="contacts">
+                                            <div class="first_contact">
+                                                <div class="cont movable" id="cont20"> </div>
+                                            </div>
+                                            <div class="second_contact">
+                                                <div class="cont movable" id="cont21"> </div>
+                                            </div>
+                                            <div class="third_contact">
+                                                <div class="cont movable" id="cont22"> </div>
+                                            </div>
+                                        </div>
+                                        <div class="motor"><img src="./content/parts/motor_body.png" alt=""></div>
+                                    </div>
+                                    <div class="volume_pic" id="sound_btn"><button><img id="sound_btn_img" src="./content/volume_on.svg" alt=""></button></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main_image">
+                            <div class="text_of_question">
+                                <h2 style='font-size: 20px;'>Соберите схему нереверсивного асинхронного электродвигателя с короткозамкнутым ротором, соединив необходимые контакты. Соблюдайте правила техники безопасности. Обеспечьте корректное подключение всех компонентов, включая катушку магнитного пускателя и дополнительные контакты, предназначенные для самоподхвата. Проверьте правильность подключения с помощью кнопочного поста.</h2>
+                            </div>
+                            <img src="./content/parts/shema.png" alt="shema"><br>
+                            <!-- <p class="image_sign">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit, voluptates iste.</p> -->
+                        </div>
+                    </div>
+                </main>
+                <audio src="content/sounds/motor.mp3" loop id="motor" style="display: none;"></audio>
+                <audio src="content/sounds/btn_power.mp3" id="btn_power" style="display: none;"></audio>
+                <audio src="content/sounds/btn_sound.mp3" id="btn_sound" style="display: none;"></audio>
+                <audio src="content/sounds/electr.mp3"  id="electr" style="display: none;"></audio>
+                <div id='last_audio_2'></div>
+            `},
+            {"correctAnswer": [
+                {from: 'cont1', to: 'cont6'},
+                {from: 'cont2', to: 'cont7'},
+                {from: 'cont3', to: 'cont8'},
+                {from: 'cont30', to: 'cont25'},
+                {from: 'cont29', to: 'cont22'},
+                {from: 'cont28', to: 'cont21'},
+                {from: 'cont27', to: 'cont20'},
+                {from: 'cont17', to: 'cont18'},
+                {from: 'cont17', to: 'cont9'},
+                {from: 'cont19', to: 'cont4'},
+                {from: 'cont16', to: 'cont7'},
+                {from: 'cont26', to: 'cont8'},
+                {from: 'cont14', to: 'cont4'},
+                {from: 'cont5', to: 'cont5'},
+                {from: 'cont11', to: 'cont11'},
+                {from: 'cont12', to: 'cont12'},
+                {from: 'cont13', to: 'cont13'},
+                {from: 'cont23', to: 'cont23'},
+                {from: 'cont24', to: 'cont24'}
+            ]},
+            {"correctAnswerNoneFull": [
+                {from: 'cont1', to: 'cont6'},
+                {from: 'cont2', to: 'cont7'},
+                {from: 'cont3', to: 'cont8'},
+                {from: 'cont30', to: 'cont25'},
+                {from: 'cont29', to: 'cont22'},
+                {from: 'cont28', to: 'cont21'},
+                {from: 'cont27', to: 'cont20'},
+                // {from: 'cont17', to: 'cont18'},
+                // {from: 'cont17', to: 'cont9'},
+                {from: 'cont19', to: 'cont4'},
+                // {from: 'cont16', to: 'cont7'},
+                {from: 'cont26', to: 'cont8'},
+                {from: 'cont14', to: 'cont4'},
+                {from: 'cont5', to: 'cont5'},
+                {from: 'cont11', to: 'cont11'},
+                {from: 'cont12', to: 'cont12'},
+                {from: 'cont13', to: 'cont13'},
+                {from: 'cont23', to: 'cont23'},
+                {from: 'cont24', to: 'cont24'}
+            ]},
+        ],
     },
     "index_18":{
         "subtitle": "Результаты",

@@ -1685,6 +1685,9 @@ line{
     .only_img img{
         width: 100% !important;
     }
+    #sound_btn_img{
+        margin: 0 !important;
+    }
 }
 @media (max-width: 950px) {
     .drag-inner9{

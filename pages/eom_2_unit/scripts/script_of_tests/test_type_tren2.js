@@ -4,8 +4,10 @@ async function waitForElement(selectors) {
     }
     return document.querySelector(selectors);
 }
-waitForElement('#last_audio_1, #last_audio_2').then(drawingArea3 => {
+
+waitForElement('#last_audio_2').then(drawingArea3 => {
     setTimeout(() => {
+        document.getElementById('control_button_3').disabled = false;
         if (drawingArea3.id === 'last_audio_1') {
             console.log('Found #last_audio_1');
             svgTest(drawingArea3);
@@ -15,61 +17,8 @@ waitForElement('#last_audio_1, #last_audio_2').then(drawingArea3 => {
         }
     }, 100);
 });
-function handleAttempts(number, backWardBtn, nextBtn) {
-    let attempts = localStorage.getItem(`attempts2_${number}`);
-    // Проверяем значение attempts
-    if (attempts === null || isNaN(attempts) || attempts < 0) {
-        attempts = 1; // Устанавливаем значение по умолчанию
-        localStorage.setItem(`attempts2_${number}`, `${attempts}`);
-        console.log(`Инициализация: attempts для ${number} установлены в 1`);
-    } else {
-        attempts = parseInt(attempts, 10); // Убедимся, что attempts - число
-    }
-    let isIncremented = false;
-    function decrementAttempts() {
-        if (!isIncremented) {
-            attempts--;
-            isIncremented = true;
-            console.log('Decremented:', attempts);
-        }
-    }
-    decrementAttempts();
-    console.log(attempts);
-    localStorage.setItem(`attempts2_${15}`, `${attempts}`);
-    let updatedAttempts = parseInt(localStorage.getItem(`attempts2_${number}`), 10);
-    if (updatedAttempts === 0) {
-        window.alert("Вы потратили все попытки для прохождения задания, кнопка 'Повторить' заблокированна!!!");
-        const controlButton = document.querySelector('#control_button_3');
-        controlButton.disabled = true;
-        controlButton.style.display = 'none';
-        backWardBtn.classList.remove('gray_dis');
-        backWardBtn.disabled = false;
-        nextBtn.classList.remove('gray_dis');
-        nextBtn.disabled = false;
-    }
-}
 
-var element2 = document.querySelector('.number_of_step');
-var number2 = parseInt(element2.textContent, 10);
-// ЭТО ДЛЯ ОШИБОК
-function initializeAttempts() {
-    var attempts2 = localStorage.getItem(`attempts2_${number2}`);
-    console.log(attempts2)
-    if (attempts2 != true) {
-        localStorage.setItem(`attempts2_${number2}`, '2'); // Устанавливаем 2 попытки
-    };
-};
-// ЭТО ДЛЯ ОШИБОК
-initializeAttempts();
-// Основной скрипт для svg.js, обернутый в функцию
-function svgTest(drawingArea3) {
-    if (blockButtonEOM2 === 1){
-        backWardBtn.classList.add('gray_dis');
-        backWardBtn.disabled = true;
-        nextBtn.classList.add('gray_dis');
-        nextBtn.disabled = true;
-    }
-    console.log(number2)
+function svgTest() {
     var testObj = data[`index_${currentPageIndex}`].paragraph_1;
     var anwserArr10 = testObj.find(item => item.correctAnswer).correctAnswer;
     var anwserArr11 = testObj.find(item => item.correctAnswerNoneFull).correctAnswerNoneFull;
@@ -77,13 +26,13 @@ function svgTest(drawingArea3) {
     var fullAnswers = anwserArr10
     // Не полный ответ. Работает только двигатель, кнопка СТОП не работает. Задание не выполнено.
     var minimalAnswers = anwserArr11
-    var powerBtn = document.getElementById('toggleButton');
-    var power_is_on = true; // Изначально электричество ВКЛ
-    var drawingArea2 = document.getElementById('drawingArea');
-    var sound_btn = document.getElementById('sound_btn')
-    var interactionsDisabled = false; // Флаг для отключения взаимодействия
-    var sound_is_on = true
-    var end = false
+    const powerBtn = document.getElementById('toggleButton');
+    let power_is_on = true; // Изначально электричество ВКЛ
+    const drawingArea = document.getElementById('drawingArea');
+    const sound_btn = document.getElementById('sound_btn')
+    let interactionsDisabled = false; // Флаг для отключения взаимодействия
+    let sound_is_on = true
+    let end = false
     // Инициализация SVG.js
     var draw = SVG().addTo('#drawingArea').size('100%', '100%').attr({
         style: 'position: absolute; top: 0; left: 0; z-index: 10;'
@@ -91,17 +40,34 @@ function svgTest(drawingArea3) {
     var connections = {}; // Для отслеживания соединений между movable
     var originalMovables = {}; // Для отслеживания исходных кружков
     var uniqueIdCounter = 0; // Счетчик уникальных ID
+    var lineDrawMethodDefaultStrong = function(path, x1, y1, x2, y2) {
+        var curveStrength = 90; // Variable controlling the strength of the curve
+        // Calculate control points with stronger curvature
+        var controlPointX1 = x1 + (x2 - x1) * 0.25;
+        var controlPointY1 = y1 - curveStrength;
+        var controlPointX2 = x1 + (x2 - x1) * 0.75;
+        var controlPointY2 = y2 + curveStrength;
+        // Create the path with the stronger curve
+        var d = `M ${x1},${y1} C ${controlPointX1},${controlPointY1} ${controlPointX2},${controlPointY2} ${x2},${y2}`;
+        path.plot(d);
+    };
     var lineDrawMethods = {
         'cont16': function(path, x1, y1, x2, y2) {
             path.plot(`M ${x1},${y1} L ${x2},${y2}`);
         },
         'cont19': function(path, x1, y1, x2, y2) {
             path.plot(`M ${x1},${y1} L ${x2},${y2}`);
-        }
+        },
+        'cont20': lineDrawMethodDefaultStrong,
+        'cont21': lineDrawMethodDefaultStrong,
+        'cont22': lineDrawMethodDefaultStrong,
+        'cont27': lineDrawMethodDefaultStrong,
+        'cont28': lineDrawMethodDefaultStrong,
+        'cont29': lineDrawMethodDefaultStrong
     };
     function getCenterCoords(element) {
         var rect = element.getBoundingClientRect();
-        var parentRect = drawingArea2.getBoundingClientRect();
+        var parentRect = drawingArea.getBoundingClientRect();
         return {
             x: rect.left - parentRect.left + rect.width / 2 + window.scrollX,
             y: rect.top - parentRect.top + rect.height / 2 + window.scrollY
@@ -111,7 +77,7 @@ function svgTest(drawingArea3) {
     // Обработчик при попытке взаимодействия при невозможности
     function onInteractionAttempt(top_cont) {
         powerBtn.textContent = "ВЫКЛЮЧИТЕ ПИТАНИЕ";
-        var mainFrame = document.querySelector('.main_frame');
+        const mainFrame = document.querySelector('.main_frame');
         if (mainFrame) {
             mainFrame.classList.add('shake');
             mainFrame.addEventListener('animationend', function() {
@@ -120,7 +86,7 @@ function svgTest(drawingArea3) {
         }
         if (top_cont){
             enableSound('electr');
-            var electrImg = document.querySelector('.electr_img');
+            const electrImg = document.querySelector('.electr_img');
             electrImg.classList.add('vibrate');
             setTimeout(() => {
                 electrImg.classList.remove('vibrate');
@@ -138,26 +104,26 @@ function svgTest(drawingArea3) {
             if (!power_is_on) document.querySelector('.motor').classList.remove('animate');
             return;
         }
-        for (var movableId in originalMovables) {
-            var circle = originalMovables[movableId];
+        for (let movableId in originalMovables) {
+            let circle = originalMovables[movableId];
             if (!power_is_on) { // Разрешить перетаскивание при выключенном питании
                 document.querySelector('.motor').classList.remove('animate');
                 if (!circle.remember('isConnected')) {
                     circle.draggable();
                 }
-                document.getElementById(movableId).classList.remove('disabled10');
+                document.getElementById(movableId).classList.remove('disabled');
             } else { // Запретить перетаскивание при включенном питании
                 circle.draggable(false);
-                document.getElementById(movableId).classList.add('disabled10');
+                document.getElementById(movableId).classList.add('disabled');
             }
         }
     });
     sound_btn.addEventListener('click', function () {
         sound_is_on = !sound_is_on
-        var sound_btn_img = document.getElementById('sound_btn_img')
-        if (sound_is_on) {
+        let sound_btn_img = document.getElementById('sound_btn_img')
+        if (sound_is_on){
             sound_btn_img.src = 'content/volume_on.svg'
-        } else {
+        }else{
             sound_btn_img.src = 'content/volume_off.svg'
         }
     })
@@ -167,7 +133,7 @@ function svgTest(drawingArea3) {
         // Добавляем обработчик двойного клика для сброса соединений
         movable.addEventListener('dblclick', function() {
             if (interactionsDisabled) return; // Не реагируем, если взаимодействие отключено
-            var movableId = this.id;
+            let movableId = this.id;
             resetConnections(movableId);
         });
     });
@@ -189,7 +155,7 @@ function svgTest(drawingArea3) {
             // Добавляем обработчик двойного клика для сброса соединений на самом кружке
             circle.on('dblclick', function() {
                 if (interactionsDisabled) return; // Не реагируем, если взаимодействие отключено
-                var movableId = this.remember('movableId');
+                let movableId = this.remember('movableId');
                 resetConnections(movableId);
             });
         }
@@ -197,11 +163,11 @@ function svgTest(drawingArea3) {
             circle.draggable();
         }
         // Визуальная индикация
-        var movableElement = document.getElementById(id);
+        const movableElement = document.getElementById(id);
         if (!power_is_on) {
-            movableElement.classList.remove('disabled10');
+            movableElement.classList.remove('disabled');
         } else {
-            movableElement.classList.add('disabled10');
+            movableElement.classList.add('disabled');
         }
         // Обработчик начала перетаскивания
         circle.on('dragstart', function(event) {
@@ -212,7 +178,7 @@ function svgTest(drawingArea3) {
             if (power_is_on) { // Запретить перетаскивание при включенном питании
                 event.preventDefault();
                 console.log(circle.node.id)
-                var top_circle = ["cont1", "cont2", "cont3"].includes(circle.node.id.split('_')[0]);
+                let top_circle = ["cont1", "cont2", "cont3"].includes(circle.node.id.split('_')[0]);
                 onInteractionAttempt(top_circle);
                 return;
             }
@@ -318,7 +284,10 @@ function svgTest(drawingArea3) {
     // Функция для обновления пути
     function updatePath(path, x1, y1, x2, y2, movableId) {
         // Если для данного movable есть особый метод рисования
+        console.log('updatePath')
+        console.log(movableId)
         if (lineDrawMethods[movableId]) {
+            console.log('Есть')
             lineDrawMethods[movableId](path, x1, y1, x2, y2);
         } else {
             // Стандартный способ
@@ -333,23 +302,22 @@ function svgTest(drawingArea3) {
     // Обработчик изменения размера окна
     window.addEventListener('resize', function() {
         // Перерисовываем все пути и кружки
-        for (var movableId in originalMovables) {
-            var circle = originalMovables[movableId];
-            var coords = getCenterCoords(document.getElementById(movableId));
+        for (let movableId in originalMovables) {
+            let circle = originalMovables[movableId];
+            let coords = getCenterCoords(document.getElementById(movableId));
             circle.center(coords.x, coords.y);
             circle.remember('originalPosition', { x: coords.x, y: coords.y });
         }
         // Обновляем позиции соединенных кружков и путей
-        for (var fromId in connections) {
+        for (let fromId in connections) {
             connections[fromId].forEach(function(conn) {
-                var fromCoords = getCenterCoords(document.getElementById(conn.from));
-                var toCoords = getCenterCoords(document.getElementById(conn.to));
+                let fromCoords = getCenterCoords(document.getElementById(conn.from));
+                let toCoords = getCenterCoords(document.getElementById(conn.to));
                 conn.circle.center(toCoords.x, toCoords.y);
                 updatePath(conn.path, fromCoords.x, fromCoords.y, toCoords.x, toCoords.y, conn.from);
             });
         }
     });
-
     // Обработчик кнопки "Старт"
     document.getElementById('start_button_1').addEventListener('click', function() {
         enableSound("btn_sound")
@@ -363,8 +331,8 @@ function svgTest(drawingArea3) {
                 allConnections.push({ from: item.from, to: item.to });
             });
         }
-        var minimalCorrect = checkConnections(allConnections, minimalAnswers);
-        var fullCorrect = checkConnections(allConnections, fullAnswers);
+        let minimalCorrect = checkConnections(allConnections, minimalAnswers);
+        let fullCorrect = checkConnections(allConnections, fullAnswers);
         if (minimalCorrect) {
             // Запускаем двигатель
             document.querySelector('.motor').classList.add('animate');
@@ -377,21 +345,17 @@ function svgTest(drawingArea3) {
                     // Здесь
                     document.querySelector('#control_button_3').textContent = `Выполнено`;
                     document.querySelector('#control_button_3').style.backgroundColor = "#66c594";
-                    document.querySelector('#control_button_3').disabled = true;
-                    localStorage.setItem('answer_form_index_' + currentPageIndex, JSON.stringify({questionPlace: true}));
                 }
             } else {
                 // Задание не выполнено полностью
                 alert('Схема собрана частично. Двигатель работает, но задание не выполнено полностью.');
-                handleAttempts(number2, currentPageIndex, backWardBtn, nextBtn);
             }
             enableSound("motor")
         } else{
             alert("Схема собрана не верно. Нажмите кнопку «Повторить»");
-            localStorage.setItem('answer_form_index_' + currentPageIndex, JSON.stringify({questionPlace: false}));
-            handleAttempts(number2, currentPageIndex, backWardBtn, nextBtn);
+            
         }
-        // Подсвечиваем соединения
+         // Подсвечиваем соединения
         highlight_connections(allConnections, fullAnswers);
         disableAllMovables();
     });
@@ -412,30 +376,28 @@ function svgTest(drawingArea3) {
                 allConnections.push({ from: item.from, to: item.to });
             });
         }
-        var fullCorrect = checkConnections(allConnections, fullAnswers);
+        let fullCorrect = checkConnections(allConnections, fullAnswers);
         if (fullCorrect) {
             document.querySelector('.motor').classList.remove('animate');
             disableAllSounds()
         } else {
-            localStorage.setItem('answer_form_index_' + currentPageIndex, JSON.stringify({questionPlace: false}));
             alert('Двигатель не может быть остановлен, так как схема собрана неверно или не полностью. Нажмите кнопку «Повторить»');
-            // attempt--
         }
     });
     // Функция для проверки, все ли соединения верны
     function checkConnections(userConnections, requiredConnections) {
         console.log(userConnections)
-        for (var reqConn of requiredConnections) {
+        for (let reqConn of requiredConnections) {
             if (reqConn.from === reqConn.to) {
                 // Проверяем, что у контакта нет соединений
-                var hasConnection = userConnections.some(userConn => 
+                let hasConnection = userConnections.some(userConn => 
                     userConn.from === reqConn.from || userConn.to === reqConn.to
                 );
                 if (hasConnection) {
                     return false;
                 }
             } else {
-                var found = userConnections.some(userConn => {
+                let found = userConnections.some(userConn => {
                     return (
                         (userConn.from === reqConn.from && userConn.to === reqConn.to) ||
                         (userConn.from === reqConn.to && userConn.to === reqConn.from)
@@ -451,21 +413,21 @@ function svgTest(drawingArea3) {
     // Функция для подсветки соединений
     function highlight_connections(userConnections, requiredConnections) {
         // Сначала сбрасываем цвета всех исходных кружков
-        for (var movableId in originalMovables) {
-            var circle = originalMovables[movableId];
+        for (let movableId in originalMovables) {
+            let circle = originalMovables[movableId];
             circle.fill('#ff483b');
         }
         // Подсвечиваем правильные соединения зелёным, неправильные — красным
         userConnections.forEach(function(userConn) {
-            var isCorrect = requiredConnections.some(reqConn => {
+            let isCorrect = requiredConnections.some(reqConn => {
                 return (
                     (userConn.from === reqConn.from && userConn.to === reqConn.to) ||
                     (userConn.from === reqConn.to && userConn.to === reqConn.from)
                 );
             });
             // Подсвечиваем оба movables в соединении
-            var fromCircle = originalMovables[userConn.from];
-            var toCircle = originalMovables[userConn.to];
+            let fromCircle = originalMovables[userConn.from];
+            let toCircle = originalMovables[userConn.to];
             if (fromCircle) {
                 fromCircle.fill(isCorrect ? '#539f78' : 'red');
                 fromCircle.front();
@@ -479,12 +441,12 @@ function svgTest(drawingArea3) {
         requiredConnections.forEach(function(reqConn) {
             if (reqConn.from === reqConn.to) {
                 // Проверяем, есть ли соединения для этого контакта
-                var hasConnection = userConnections.some(userConn => 
+                let hasConnection = userConnections.some(userConn => 
                     userConn.from === reqConn.from || userConn.to === reqConn.to
                 );
                 if (!hasConnection) {
                     // Подсвечиваем контакт зелёным
-                    var circle = originalMovables[reqConn.from];
+                    let circle = originalMovables[reqConn.from];
                     if (circle) {
                         circle.fill('#539f78');
                         circle.front();
@@ -498,14 +460,14 @@ function svgTest(drawingArea3) {
     // Функция для получения кружка по соединению
     function getCircleByConnection(fromId, toId) {
         if (connections[fromId]) {
-            for (var conn of connections[fromId]) {
+            for (let conn of connections[fromId]) {
                 if ((conn.from === fromId && conn.to === toId) || (conn.from === toId && conn.to === fromId)) {
                     return conn.circle;
                 }
             }
         }
         if (connections[toId]) {
-            for (var conn of connections[toId]) {
+            for (let conn of connections[toId]) {
                 if ((conn.from === fromId && conn.to === toId) || (conn.from === toId && conn.to === fromId)) {
                     return conn.circle;
                 }
@@ -529,7 +491,7 @@ function svgTest(drawingArea3) {
             delete connections[movableId];
         }
         // Удаляем все соединения, где movableId является 'to'
-        for (var fromId in connections) {
+        for (let fromId in connections) {
             connections[fromId] = connections[fromId].filter(function(conn) {
                 if (conn.to === movableId) {
                     conn.circle.remove();
@@ -544,29 +506,16 @@ function svgTest(drawingArea3) {
             }
         }
         // Сбрасываем подсветку кружка
-        var circle = originalMovables[movableId];
+        let circle = originalMovables[movableId];
         if (circle) {
             circle.fill('#ff483b');
         }
     }
-    // Здесь добавить функционал
-    var ReloadBtn10 = document.querySelector('#control_button_3');
-    ReloadBtn10.style.display = 'block';
-    ReloadBtn10.classList.remove('hidden');
-    ReloadBtn10.onclick = () =>{
-        ReloadBtn10.style.display = 'block';
-        ReloadBtn10.classList.remove('hidden');
-        setTimeout(() => {
-            svgTest(drawingArea3);
-
-        }, 100); // задержка в 100 мс
-        localStorage.setItem('answer_form_index_' + currentPageIndex, JSON.stringify({questionPlace: false}));
-    }
     // Функция для отключения взаимодействия с movable
     function disableAllMovables() {
         interactionsDisabled = true;
-        for (var movableId in originalMovables) {
-            var circle = originalMovables[movableId];
+        for (let movableId in originalMovables) {
+            let circle = originalMovables[movableId];
             circle.draggable(false);
         }
     }
@@ -594,5 +543,4 @@ function svgTest(drawingArea3) {
         }
         return
     }
-    console.log('SVG тест инициализирован');
 }
