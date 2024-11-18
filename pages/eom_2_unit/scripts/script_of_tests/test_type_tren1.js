@@ -40,7 +40,7 @@ function handleAttempts(number, backWardBtn, nextBtn) {
     localStorage.setItem(`attempts2_${15}`, `${attempts}`);
     let updatedAttempts = parseInt(localStorage.getItem(`attempts2_${number}`), 10);
     if (updatedAttempts === 0) {
-        window.alert("Вы потратили все попытки для прохождения задания, кнопка 'Повторить' заблокированна!!!");
+        window.alert("Вы потратили все попытки для прохождения задания, кнопка 'Повторить' заблокирована!!!");
         const controlButton = document.querySelector('#control_button_3');
         controlButton.disabled = true;
         controlButton.style.display = 'none';

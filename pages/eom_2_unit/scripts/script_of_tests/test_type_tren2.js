@@ -19,6 +19,7 @@ waitForElement('#last_audio_2').then(drawingArea3 => {
     }, 100);
 });
 
+svgTrenAttCheck();
 function svgTest() {
     var testObj = data[`index_${currentPageIndex}`].paragraph_1;
     var anwserArr10 = testObj.find(item => item.correctAnswer).correctAnswer;

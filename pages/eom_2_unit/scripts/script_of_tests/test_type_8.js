@@ -4,31 +4,28 @@ var number2 = parseInt(element2.textContent, 10);
 var attempts = localStorage.getItem(`attempts_${number2}`);
 if (attempts == 0){
     document.querySelector('#control_button_2').style.display = `none`;
-    backWardBtn.classList.remove('gray_dis');
-    backWardBtn.disabled = false;
-    nextBtn.classList.remove('gray_dis');
-    nextBtn.disabled = false;
 } else {
     document.querySelector('#control_button_2').style.display = `inline-block`;
 };
+function checkBtnStatus(){
+    var testData = data[`index_${currentPageIndex}`];
+    var attempts = parseInt(localStorage.getItem(`attempts_${currentPageIndex}`));
+    if(blockButtonEOM2 == 1 && attempts !== 0 && testData.hasOwnProperty('test')){
+        backWardBtn.classList.add('gray_dis');
+        backWardBtn.disabled = true;
+        nextBtn.classList.add('gray_dis');
+        nextBtn.disabled = true;
+    } else {
+        backWardBtn.classList.remove('gray_dis');
+        backWardBtn.disabled = false;
+        nextBtn.classList.remove('gray_dis');
+        nextBtn.disabled = false;
+    }
+}
+checkBtnStatus();
 if (!planeText) {
     function createTest(index){
-        function checkBtnStatus(){
-            var testData = data[`index_${currentPageIndex}`];
-            var attempts = parseInt(localStorage.getItem(`attempts_${currentPageIndex}`));
-            if(blockButtonEOM2 == 1 && attempts !== 0 && testData.hasOwnProperty('test')){
-                backWardBtn.classList.add('gray_dis');
-                backWardBtn.disabled = true;
-                nextBtn.classList.add('gray_dis');
-                nextBtn.disabled = true;
-            } else {
-                backWardBtn.classList.remove('gray_dis');
-                backWardBtn.disabled = false;
-                nextBtn.classList.remove('gray_dis');
-                nextBtn.disabled = false;
-            }
-        }
-        checkBtnStatus();
+
         var test = data[index].test;
         if (test.paragraph_1){
             document.getElementById('control_button_1').classList.remove('gray_dis');
@@ -210,8 +207,10 @@ if (!planeText) {
                                 answerButton.classList.add('gray_dis');
                                 answerButton.disabled = true;
                             } else {
-                                answerButton.classList.remove('gray_dis');
-                                answerButton.disabled = false;
+                                if(attempts != 0){
+                                    answerButton.classList.remove('gray_dis');
+                                    answerButton.disabled = false;
+                                }
                             }
                         }
                         checkLength();
@@ -274,7 +273,7 @@ if (!planeText) {
             // Добавить
             backWardBtn.classList.remove('gray_dis');
             backWardBtn.disabled = false;
-            window.alert("Вы потратили все попытки для прохождения задания, кнопка 'Ответить' заблокированна!!!");
+            window.alert("Вы потратили все попытки для прохождения задания, кнопка 'Ответить' заблокирована!!!");
         }
         // ЭТО ДЛЯ ОШИБОК
         function disabvarest(){
