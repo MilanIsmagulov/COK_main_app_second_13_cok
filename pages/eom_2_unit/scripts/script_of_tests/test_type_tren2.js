@@ -15,7 +15,7 @@ waitForElement('#last_audio_2').then(drawingArea3 => {
             console.log('Found #last_audio_2');
             svgTest(drawingArea3);
         }
-        updatePage(0);
+         
     }, 100);
 });
 
