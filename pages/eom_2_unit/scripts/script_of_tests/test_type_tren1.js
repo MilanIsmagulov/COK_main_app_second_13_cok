@@ -376,6 +376,9 @@ function svgTest(drawingArea3) {
                     alert('Задание выполнено верно! Проверьте кнопку «Стоп»');
                     end = true
                     document.getElementById('control_button_4').disabled = false;
+                    document.getElementById('control_button_1').disabled = false;
+                    document.getElementById('control_button_4').classList.remove('gray_dis');
+                    document.getElementById('control_button_1').classList.remove('gray_dis');
                     // Здесь
                     document.querySelector('#control_button_3').textContent = `Выполнено`;
                     document.querySelector('#control_button_3').style.backgroundColor = "#66c594";
