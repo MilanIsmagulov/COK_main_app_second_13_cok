@@ -128,8 +128,13 @@ footer {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 50%;
+    width: 65% !important;
 }
+
+.main_image{
+    width: 35% !important;
+}
+
 .main_image{
     flex-direction: column;
 }
@@ -534,10 +539,13 @@ button {
     }
     .main_frame, .main_image{
         margin-top: 0 !important;
-        width: 100%;
+        width: 100% !important;
     }
     .main_image{
         order: -1;
+    }
+    .main_frame{
+        overflow-x: scroll;
     }
 }
 #drawingArea {
@@ -637,4 +645,8 @@ button:disabled {
 
 .content-wrapper{
     overflow-x: hidden !important;
+}
+
+#cont15{
+    display: none;
 }

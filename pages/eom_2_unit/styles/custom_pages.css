@@ -81,6 +81,12 @@
     }
 }
 
+@media(max-width: 1200px){
+    .text_of_question p{
+        width: 100% !important;
+    }
+}
+
 @media(min-width: 2000px){
     p{
         margin-bottom: 50px;
