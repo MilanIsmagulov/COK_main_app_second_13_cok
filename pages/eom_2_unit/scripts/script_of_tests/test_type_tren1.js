@@ -13,6 +13,8 @@ waitForElement('#last_audio_1, #last_audio_2').then(drawingArea3 => {
         } else if (drawingArea3.id === 'last_audio_2') {
             console.log('Found #last_audio_2');
             svgTest(drawingArea3);
+            document.querySelector('#control_button_3').textContent = `Повторить`;
+            document.querySelector('#control_button_3').style.backgroundColor = "#0767aa";
         }
         
     }, 100);
